@@ -18,7 +18,7 @@ repositories {
 dependencies {
     // Use JUnit test framework.
     testImplementation(libs.junit)
-
+    testImplementation("org.mockito:mockito-core:5.17.0")
     // This dependency is used by the application.
     implementation(libs.guava)
 }
