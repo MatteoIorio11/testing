@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class TestLogic {
@@ -39,5 +40,15 @@ public class TestLogic {
         assertFalse(this.logic.hit(pos3).isEmpty());
     }
 
-    
+    @Test
+    public void testHitANeighbourPosition() {
+        final Position pos1 = Mockito.mock(Position.class);
+        final Position pos2 = Mockito.mock(Position.class);
+        when(pos1.x()).thenReturn(1);
+        when(pos1.y()).thenReturn(1);
+        assertFalse(logic.hit(pos1).isEmpty());
+        when(pos2.x()).thenReturn(2);
+        when(pos2.y()).thenReturn(2);
+        assertTrue(logic.hit(pos2).isEmpty());
+    }
 }
