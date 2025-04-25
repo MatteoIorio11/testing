@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -23,6 +24,12 @@ public class TestLogicLogger {
     }
 
     @Test
+    public void testIsOverPrintsLog() {
+        assertFalse(logic.isOver());
+        verify(logger, times(1)).info("Check if the game is over");
+    }
+
+    @Test
     public void testHitPrintsLogs() {
         final var pos1 = Mockito.mock(org.example.utils.Position.class);
         when(pos1.x()).thenReturn(1);
@@ -31,5 +38,14 @@ public class TestLogicLogger {
         verify(logger, atLeast(2)).info(anyString());
         verify(logger, times(1)).info("Hit at position: " + pos1);
         verify(logger, times(1)).info("Check if the game is over");
+    }
+
+    @Test
+    public void testGetMarkPrintsLog() {
+        final var pos1 = Mockito.mock(org.example.utils.Position.class);
+        when(pos1.x()).thenReturn(1);
+        when(pos1.y()).thenReturn(1);
+        assertTrue(logic.getMark(pos1).isEmpty());
+        verify(logger, times(1)).info("Get mark for position: " + pos1);
     }
 }
