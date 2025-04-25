@@ -4,11 +4,15 @@ import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
 import org.example.utils.Position;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 
 public class TestLogic {
     private static final int SIZE = 10;
@@ -63,5 +67,16 @@ public class TestLogic {
         assertFalse(logic.hit(pos1).isEmpty());
         assertTrue(logic.hit(pos2).isEmpty());
         assertTrue(logic.isOver());
+    }
+
+    @Test
+    public void testPrivateNeighbours() {
+        final Position pos1 = Mockito.mock(Position.class);
+        final Position pos2 = Mockito.mock(Position.class);
+        when(pos1.x()).thenReturn(0);
+        when(pos1.y()).thenReturn(0);
+        when(pos2.x()).thenReturn(1);
+        when(pos2.y()).thenReturn(1);
+        assertTrue(logic.areNeighbours(pos1, pos2));
     }
 }
