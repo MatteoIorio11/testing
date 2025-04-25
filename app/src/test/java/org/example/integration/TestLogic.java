@@ -51,4 +51,17 @@ public class TestLogic {
         when(pos2.y()).thenReturn(2);
         assertTrue(logic.hit(pos2).isEmpty());
     }
+
+    @Test
+    public void testIsOver() {
+        final Position pos1 = Mockito.mock(Position.class);
+        final Position pos2 = Mockito.mock(Position.class);
+        when(pos1.x()).thenReturn(0);
+        when(pos1.y()).thenReturn(0);
+        when(pos2.x()).thenReturn(1);
+        when(pos2.y()).thenReturn(1);
+        assertFalse(logic.hit(pos1).isEmpty());
+        assertTrue(logic.hit(pos2).isEmpty());
+        assertTrue(logic.isOver());
+    }
 }
