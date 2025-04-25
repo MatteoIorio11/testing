@@ -10,23 +10,29 @@ import java.util.stream.Collectors;
 public class LogicImpl implements Logic {
 
     private final int size;
+    private final MyLogger logger;
     private List<Position> marks = new LinkedList<>();
     private boolean moving = false;
 
-    public LogicImpl(int size) {
+    public LogicImpl(final int size, final MyLogger logger) {
         this.size = size;
+        this.logger = logger;
     }
 
     @Override
     public Optional<Integer> hit(Position position) {
+        this.logger.info("Hit at position: " + position);
         if (this.isOver()){
+            this.logger.info("The Game is Over");
             return Optional.empty();
         }
         if (this.moving || startMoving(position)){
+            this.logger.info("Moving positions");
             this.moving = true;
             this.moveMarks();
             return Optional.empty();
         }
+        this.logger.info("Add the hitted position");
         this.marks.add(position);
         return Optional.of(this.marks.size());
     }
@@ -53,11 +59,13 @@ public class LogicImpl implements Logic {
 
     @Override
     public Optional<Integer> getMark(Position position) {
+        this.logger.info("Get mark at position: " + position);
         return Optional.of(this.marks.indexOf(position)).filter(i -> i>=0).map(i -> i+1);
     }
 
     @Override
     public boolean isOver() {
+        this.logger.info("Check if the game is over");
         return this.marks.stream().anyMatch(p -> p.x() == this.size || p.y() == -1);
     }
 }
