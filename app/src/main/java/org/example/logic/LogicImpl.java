@@ -1,5 +1,7 @@
 package org.example.logic;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.utils.Position;
 
 import java.util.LinkedList;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class LogicImpl implements Logic {
 
+    private static final Logger log = LogManager.getLogger(LogicImpl.class);
     private final int size;
     private final MyLogger logger;
     private List<Position> marks = new LinkedList<>();
@@ -38,6 +41,7 @@ public class LogicImpl implements Logic {
     }
 
     private boolean neighbours(Position p1, Position p2){
+        logger.info("Checking if " + p1 + " and " + p2 + " are neighbours");
         return Math.abs(p1.x()-p2.x()) <= 1 && Math.abs(p1.y()-p2.y()) <= 1;
     }
 
@@ -59,7 +63,7 @@ public class LogicImpl implements Logic {
 
     @Override
     public Optional<Integer> getMark(Position position) {
-        this.logger.info("Get mark at position: " + position);
+        this.logger.info("Get mark for position: " + position);
         return Optional.of(this.marks.indexOf(position)).filter(i -> i>=0).map(i -> i+1);
     }
 
