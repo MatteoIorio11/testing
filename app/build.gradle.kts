@@ -26,7 +26,7 @@ dependencies {
 }
 
 tasks.test {
-    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+//    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
