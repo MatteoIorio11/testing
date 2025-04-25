@@ -1,4 +1,4 @@
-package org.example.integration;
+package org.example.unit;
 
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
