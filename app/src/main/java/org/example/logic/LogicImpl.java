@@ -47,6 +47,11 @@ public class LogicImpl implements Logic {
     }
 
     @Override
+    public boolean areNeighbours(Position p1, Position p2) {
+        return this.neighbours(p1, p2);
+    }
+
+    @Override
     public Optional<Integer> getMark(Position position) {
         return Optional.of(this.marks.indexOf(position)).filter(i -> i>=0).map(i -> i+1);
     }

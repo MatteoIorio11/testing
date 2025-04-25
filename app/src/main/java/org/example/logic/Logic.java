@@ -11,4 +11,5 @@ public interface Logic {
     Optional<Integer> getMark(Position position);
 
     boolean isOver();
+    boolean areNeighbours(Position p1, Position p2);
 }
