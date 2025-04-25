@@ -1,6 +1,8 @@
 package org.example;
+import org.example.logic.LoggerImpl;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
+import org.example.logic.MyLogger;
 import org.example.utils.Position;
 
 import javax.swing.*;
@@ -11,13 +13,14 @@ import java.awt.event.ActionListener;
 public class GUI extends JFrame {
 
     private static final long serialVersionUID = -6218820567019985015L;
+    private static final MyLogger logger = new LoggerImpl();
     private final Map<JButton, Position> cells = new HashMap<>();
     private final Logic logic;
 
     public GUI(int size) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(70*size, 70*size);
-        this.logic = new LogicImpl(size);
+        this.logic = new LogicImpl(size, logger);
 
         JPanel panel = new JPanel(new GridLayout(size,size));
         this.getContentPane().add(panel);
