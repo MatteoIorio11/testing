@@ -2,28 +2,37 @@ package org.example.integration;
 
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
+import org.example.logic.MyLogger;
 import org.example.utils.Position;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 
 public class TestLogic {
     private static final int SIZE = 10;
-    private final Logic logic = new LogicImpl(SIZE);
+
+    private static Logic logic;
+
+    @Before
+    public void initLogic() {
+        final MyLogger logger = Mockito.mock(MyLogger.class);
+        doNothing().when(logger).info(anyString());
+        doNothing().when(logger).error(anyString());
+        logic = new LogicImpl(SIZE, logger);
+    }
 
     @Test
     public void testValidHit() {
         final Position pos1 = Mockito.mock(Position.class);
         when(pos1.x()).thenReturn(1);
         when(pos1.y()).thenReturn(1);
-        assertFalse(this.logic.hit(pos1).isEmpty());
+        assertFalse(logic.hit(pos1).isEmpty());
     }
 
     @Test
