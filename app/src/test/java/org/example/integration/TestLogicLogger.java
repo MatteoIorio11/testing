@@ -30,5 +30,6 @@ public class TestLogicLogger {
         assertFalse(logic.hit(pos1).isEmpty());
         verify(logger, atLeast(2)).info(anyString());
         verify(logger, times(1)).info("Hit at position: " + pos1);
+        verify(logger, times(1)).info("Check if the game is over");
     }
 }
