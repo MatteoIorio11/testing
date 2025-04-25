@@ -19,8 +19,14 @@ dependencies {
     // Use JUnit test framework.
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:5.17.0")
+    testImplementation("org.powermock:powermock-module-junit4:2.0.9")
+    testImplementation("org.powermock:powermock-api-mockito2:2.0.9")
     // This dependency is used by the application.
     implementation(libs.guava)
+}
+
+tasks.test {
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
