@@ -10,6 +10,6 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
-        new GUI(10);
+        new GUI(10, () -> {System.exit(0);});
     }
 }
