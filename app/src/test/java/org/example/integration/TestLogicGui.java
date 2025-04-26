@@ -35,7 +35,7 @@ public class TestLogicGui {
     }
 
     @Test
-    public void testWhenButtonPressLogicHits() {
+    public void testOnPressButtonLogicHits() {
         try {
             final Map<JButton, Position> cells = this.getGUICells();
             final JButton button = cells.keySet().iterator().next();
@@ -44,6 +44,20 @@ public class TestLogicGui {
             verify(spyLogic, times(1)).hit(position);
             verify(spyLogic, atLeast(1)).isOver();
         }catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testOnPressButtonTextChange() {
+        try {
+            final Map<JButton, Position> cells = this.getGUICells();
+            final JButton button = cells.keySet().iterator().next();
+            final Position position = cells.get(button);
+            button.doClick();
+            verify(spyLogic, times(1)).hit(position);
+            verify(spyLogic, atLeast(1)).getMark(position);
+        } catch (Exception e) {
             fail();
         }
     }
