@@ -16,11 +16,13 @@ public class GUI extends JFrame {
     private static final MyLogger logger = new LoggerImpl();
     private final Map<JButton, Position> cells = new HashMap<>();
     private final Logic logic;
+    private Runnable isOverHandler;
 
-    public GUI(int size) {
+    public GUI(int size, Runnable isOverHandler) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(70*size, 70*size);
         this.logic = new LogicImpl(size, logger);
+        this.isOverHandler = isOverHandler;
 
         JPanel panel = new JPanel(new GridLayout(size,size));
         this.getContentPane().add(panel);
@@ -50,7 +52,7 @@ public class GUI extends JFrame {
                             .orElse(" "));
         }
         if (this.logic.isOver()){
-            System.exit(0);
+            this.isOverHandler.run();
         }
     }
 
