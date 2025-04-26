@@ -25,19 +25,8 @@ public class GUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout(size,size));
         this.getContentPane().add(panel);
 
-        ActionListener al = e -> {
-            var jb = (JButton)e.getSource();
-            this.logic.hit(this.cells.get(jb));
-            for (var entry: this.cells.entrySet()){
-                entry.getKey().setText(
-                        this.logic
-                                .getMark(entry.getValue())
-                                .map(String::valueOf)
-                                .orElse(" "));
-            }
-            if (this.logic.isOver()){
-                System.exit(0);
-            }
+        final ActionListener al = e -> {
+            handleClick((JButton) e.getSource());
         };
 
         for (int i=0; i<size; i++){
@@ -49,6 +38,20 @@ public class GUI extends JFrame {
             }
         }
         this.setVisible(true);
+    }
+
+    private void handleClick(final JButton jb) {
+        this.logic.hit(this.cells.get(jb));
+        for (var entry: this.cells.entrySet()){
+            entry.getKey().setText(
+                    this.logic
+                            .getMark(entry.getValue())
+                            .map(String::valueOf)
+                            .orElse(" "));
+        }
+        if (this.logic.isOver()){
+            System.exit(0);
+        }
     }
 
 }
