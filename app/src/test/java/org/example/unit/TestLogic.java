@@ -1,11 +1,13 @@
 package org.example.unit;
 
+import jdk.jfr.Description;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
 import org.example.logic.MyLogger;
 import org.example.utils.Position;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
@@ -28,6 +30,8 @@ public class TestLogic {
     }
 
     @Test
+    @Description("When the user hits a valid position, it should return its mark.")
+    @Tag("Unit")
     public void testValidHit() {
         final Position pos1 = Mockito.mock(Position.class);
         when(pos1.x()).thenReturn(1);
@@ -36,6 +40,8 @@ public class TestLogic {
     }
 
     @Test
+    @Description("When the user hits multiple valid positions, it should return their marks each time.")
+    @Tag("Unit")
     public void testMultipleValidHits() {
         final Position pos1 = Mockito.mock(Position.class);
         when(pos1.x()).thenReturn(0);
@@ -54,6 +60,8 @@ public class TestLogic {
     }
 
     @Test
+    @Description("When the user hits a position neighbouring with another valid postion, it should return an empty mark.")
+    @Tag("Unit")
     public void testHitANeighbourPosition() {
         final Position pos1 = Mockito.mock(Position.class);
         final Position pos2 = Mockito.mock(Position.class);
@@ -66,6 +74,8 @@ public class TestLogic {
     }
 
     @Test
+    @Description("When the user starts moving the positions, the game should be over when one of the positions goes out of the board.")
+    @Tag("Unit")
     public void testIsOver() {
         final Position pos1 = Mockito.mock(Position.class);
         final Position pos2 = Mockito.mock(Position.class);
@@ -79,6 +89,8 @@ public class TestLogic {
     }
 
     @Test
+    @Description("Two positions are neighbours if the distance between them is 1.")
+    @Tag("Unit")
     public void testPrivateNeighbours() {
         final Position pos1 = Mockito.mock(Position.class);
         final Position pos2 = Mockito.mock(Position.class);
