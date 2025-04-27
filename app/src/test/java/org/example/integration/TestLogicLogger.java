@@ -1,11 +1,13 @@
 package org.example.integration;
 
+import jdk.jfr.Description;
 import org.example.logic.LoggerImpl;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
 import org.example.logic.MyLogger;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
@@ -24,12 +26,16 @@ public class TestLogicLogger {
     }
 
     @Test
+    @Description("When the isOver method is called, it should print a log message.")
+    @Tag("Integration")
     public void testIsOverPrintsLog() {
         assertFalse(logic.isOver());
         verify(logger, times(1)).info("Check if the game is over");
     }
 
     @Test
+    @Description("When the user hits a position, the logger should print different log messages.")
+    @Tag("Integration")
     public void testHitPrintsLogs() {
         final var pos1 = Mockito.mock(org.example.utils.Position.class);
         when(pos1.x()).thenReturn(1);
@@ -42,6 +48,8 @@ public class TestLogicLogger {
     }
 
     @Test
+    @Description("When the user calls getMark, the logger should print a log message regarding the input position.")
+    @Tag("Integration")
     public void testGetMarkPrintsLog() {
         final var pos1 = Mockito.mock(org.example.utils.Position.class);
         when(pos1.x()).thenReturn(1);
@@ -51,6 +59,8 @@ public class TestLogicLogger {
     }
 
     @Test
+    @Description("When the game is over, the logger should print the message 'The Game is Over'.")
+    @Tag("Integration")
     public void testPrintsWhenGameIsOver() {
         final var pos1 = Mockito.mock(org.example.utils.Position.class);
         final var pos2 = Mockito.mock(org.example.utils.Position.class);
