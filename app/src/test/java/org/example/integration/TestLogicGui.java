@@ -1,24 +1,23 @@
 package org.example.integration;
 
+import jdk.jfr.Description;
 import org.example.GUI;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
 import org.example.logic.MyLogger;
 import org.example.utils.Position;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 import org.mockito.Mockito;
 
 import javax.swing.*;
-import javax.swing.text.html.Option;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -40,6 +39,8 @@ public class TestLogicGui {
     }
 
     @Test
+    @Description("When a button is pressed the logic's hit should be invoked.")
+    @Tag("Integration")
     public void testOnPressButtonLogicHits() {
         try {
             final Map<JButton, Position> cells = this.getGUICells();
@@ -54,6 +55,8 @@ public class TestLogicGui {
     }
 
     @Test
+    @Description("When a button is pressed the logic's hit should be invoked along with the getMark.")
+    @Tag("Integration")
     public void testOnPressButtonTextChange() {
         try {
             final Map<JButton, Position> cells = this.getGUICells();
@@ -61,13 +64,15 @@ public class TestLogicGui {
             final Position position = cells.get(button);
             button.doClick();
             verify(spyLogic, times(1)).hit(position);
-            verify(spyLogic, atLeast(1)).getMark(position);
+            verify(spyLogic, times(1)).getMark(position);
         } catch (Exception e) {
             fail();
         }
     }
 
     @Test
+    @Description("When the game is over, the logic's isOver should be invoked and the isOver handler should be run.")
+    @Tag("Integration")
     public void testIsOver() {
         try {
             final Map<JButton, Position> cells = this.getGUICells();
