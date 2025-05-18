@@ -39,6 +39,9 @@ public class GUI extends JFrame {
                 panel.add(jb);
             }
         }
+    }
+
+    public void showGUI() {
         this.setVisible(true);
     }
 
