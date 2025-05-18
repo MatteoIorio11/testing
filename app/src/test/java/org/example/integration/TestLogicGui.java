@@ -31,7 +31,6 @@ public class TestLogicGui {
     @Before
     public void init() throws NoSuchFieldException, IllegalAccessException {
         gui = new GUI(SIZE, spyRunnable);
-        gui.setVisible(false);
         doNothing().when(mockLogger).info(anyString());
         doNothing().when(mockLogger).error(anyString());
         doNothing().when(spyRunnable).run();
