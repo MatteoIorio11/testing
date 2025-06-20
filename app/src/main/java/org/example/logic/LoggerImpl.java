@@ -1,17 +1,16 @@
 package org.example.logic;
 
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class LoggerImpl implements MyLogger {
     @Override
-    public void info(String message) {
+    public void info(@NonNull String message) {
         System.out.println("INFO: " + message);
     }
 
     @Override
-    public void error(String message) {
+    public void error(@NonNull String message) {
         System.err.println("ERROR: " + message);
     }
 }

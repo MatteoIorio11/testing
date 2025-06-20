@@ -1,15 +1,18 @@
 package org.example.logic;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.example.utils.Position;
 
 import java.util.Optional;
 
 public interface Logic {
 
-    Optional<Integer> hit(Position position);
+    @NonNull
+    Optional<Integer> hit(@NonNull Position position);
 
-    Optional<Integer> getMark(Position position);
+    @NonNull
+    Optional<Integer> getMark(@NonNull Position position);
 
     boolean isOver();
-    boolean areNeighbours(Position p1, Position p2);
+    boolean areNeighbours(@NonNull Position p1, @NonNull Position p2);
 }
