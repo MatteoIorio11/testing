@@ -24,6 +24,8 @@ dependencies {
     testImplementation("org.powermock:powermock-api-mockito2:2.0.9")
     implementation("org.apache.logging.log4j:log4j-core:2.24.2")
     implementation("org.apache.logging.log4j:log4j-api:2.24.2")
+    implementation("io.cucumber:cucumber-java:7.23.0")
+    testImplementation("io.cucumber:cucumber-junit:7.23.0")
     // This dependency is used by the application.
     implementation(libs.guava)
 }
