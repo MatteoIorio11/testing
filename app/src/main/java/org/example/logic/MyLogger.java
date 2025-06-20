@@ -1,6 +1,8 @@
 package org.example.logic;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 public interface MyLogger {
-    void info(String message);
-    void error(String message);
+    void info(@NonNull String message);
+    void error(@NonNull String message);
 }
