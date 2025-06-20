@@ -46,17 +46,17 @@ public class TestLogic {
         final Position pos1 = Mockito.mock(Position.class);
         when(pos1.x()).thenReturn(0);
         when(pos1.y()).thenReturn(0);
-        assertFalse(this.logic.hit(pos1).isEmpty());
+        assertFalse(logic.hit(pos1).isEmpty());
 
         final Position pos2 = Mockito.mock(Position.class);
         when(pos2.x()).thenReturn(SIZE - 1);
         when(pos2.y()).thenReturn(SIZE - 1);
-        assertFalse(this.logic.hit(pos2).isEmpty());
+        assertFalse(logic.hit(pos2).isEmpty());
 
         final Position pos3 = Mockito.mock(Position.class);
         when(pos3.x()).thenReturn(SIZE / 2);
         when(pos3.y()).thenReturn(0);
-        assertFalse(this.logic.hit(pos3).isEmpty());
+        assertFalse(logic.hit(pos3).isEmpty());
     }
 
     @Test
