@@ -41,8 +41,32 @@ Feature: Logic Interaction
 
   Scenario: The User interacts with 10x10 board, hits two neighbouring positions and finds out that the positions start moving.
     Given The board is empty
-    When The user hits two positions which are neighbouring and not at the boarder such as x=5, y=5 and x=6, y=6
-    Then The hitted positions start moving
+    When The user hits two random cell in the board which are neighbouring:
+    """
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 1 0 0 0 0 0
+    0 0 0 0 0 2 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    """
+    Then The hitted positions start moving and the result board should be like this:
+    """
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 1 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    """
 
   Scenario: The User interacts with 10x10 board, moves a hitted positions outside the border and then the game is over.
     Given The board is empty
