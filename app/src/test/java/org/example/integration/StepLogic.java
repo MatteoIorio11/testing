@@ -58,12 +58,6 @@ public class StepLogic {
         this.clearAndCreate();
     }
 
-    @When("The user hits position x={int},y={int} and a neighbouring position such as x={int}, y={int}")
-    public void theUserHitsPositionXYAndANeighbouringPositionSuchAsXY(int arg0, int arg1, int arg2, int arg3) {
-        this.logic.hit(new Position(arg0, arg1));
-        this.lastOutput = this.logic.hit(new Position(arg2, arg3));
-    }
-
     @Then("The game is over")
     public void theGameIsOver() {
         assertTrue(this.logic.isOver());
@@ -126,6 +120,12 @@ public class StepLogic {
         }
         assertTrue(this.lastOutput.isEmpty());
     }
+
+    @When("The user hits two random cell in the board which are neighbouring and close to the boarder \\(distance 0):")
+    public void theUserHitsTwoRandomCellInTheBoardWhichAreNeighbouringAndCloseToTheBoarderDistance(String board) {
+        this.parseBoard(board, (log, pos) -> {this.lastOutput = this.logic.hit(pos);});
+    }
+
     private void parseBoard(@NonNull final String board, final BiConsumer<Logic, Position> consumer) {
         final int nRows = board.split("\n").length;
         final String[] rows = board.split("\n");

@@ -70,5 +70,17 @@ Feature: Logic Interaction
 
   Scenario: The User interacts with 10x10 board, moves a hitted positions outside the border and then the game is over.
     Given The board is empty
-    When The user hits position x=0,y=0 and a neighbouring position such as x=1, y=1
+    When The user hits two random cell in the board which are neighbouring and close to the boarder (distance 0):
+    """
+    1 0 0 0 0 0 0 0 0 0
+    0 2 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    """
     Then The game is over
