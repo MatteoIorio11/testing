@@ -8,3 +8,7 @@ Feature: Logic Interaction
     Given The board is empty
     When The user hits position x=0, y=0 and x=7, y=7
     Then The returned value should be two
+
+    Given The board is empty
+    When The user hits position x=0,y=0 and a neighbouring position such as x=1, y=1
+    Then The game is over
