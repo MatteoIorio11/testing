@@ -3,6 +3,7 @@ package org.example.integration;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.example.logic.LoggerImpl;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
@@ -11,6 +12,7 @@ import org.example.utils.Position;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,15 +39,6 @@ public class StepLogic {
         assertFalse(this.lastOutput.isEmpty());
         final int value = this.lastOutput.get();
         assertEquals(1, value);
-    }
-
-    @When("The user hits position two random positions x={int}, y={int} and x={int}, y={int}")
-    public void theUserHitsPositionXYAndXY(int arg0, int arg1, int arg2, int arg3) {
-        this.clearAndCreate();
-        final Position position = new Position(arg0, arg1);
-        final Position position2 = new Position(arg2, arg3);
-        this.logic.hit(position);
-        this.lastOutput = this.logic.hit(position2);
     }
 
     @Then("The returned value should be two")
@@ -99,5 +92,32 @@ public class StepLogic {
         assertTrue(directions.stream().allMatch(direction ->
                         this.logic.areNeighbours(new Position(this.lastHit.x() + direction.x(),
                                 this.lastHit.y() + direction.y()), this.lastHit)));
+    }
+
+    @When("The user hits a random cell in the board:")
+    public void theUserHitsARandomCellAt(String board) {
+        this.parseBoard(board);
+    }
+
+    @When("The user hits two random positions in the board:")
+    public void theUserHitsTwoRandomPositionsInTheBoard(String board) {
+        this.parseBoard(board);
+    }
+
+    private void parseBoard(@NonNull final String board) {
+        final int nRows = board.split("\n").length;
+        final String[] rows = board.split("\n");
+        for (int row = 0; row < nRows; row++) {
+            final String line = rows[row];
+            final String[] cols = line.split(" ");
+            final int nCols = line.split(" ").length;
+            for (int col = 0; col < nCols; col++) {
+                final String cell = cols[col];
+                if (cell.equals("X")) {
+                    this.lastHit = new Position(row, col);
+                    this.lastOutput = this.logic.hit(this.lastHit);
+                }
+            }
+        }
     }
 }
