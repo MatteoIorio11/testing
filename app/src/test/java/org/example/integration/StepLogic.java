@@ -11,11 +11,13 @@ import org.example.utils.Position;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public class StepLogic {
     private Logic logic;
     private Optional<Integer> lastOutput;
+    private Position lastHit;
     final MyLogger logger = new LoggerImpl();
 
     public StepLogic() {
@@ -59,5 +61,43 @@ public class StepLogic {
     @Given("The board is empty")
     public void theBoardIsEmpty() {
         this.clearAndCreate();
+    }
+
+    @When("The user hits position x={int},y={int} and a neighbouring position such as x={int}, y={int}")
+    public void theUserHitsPositionXYAndANeighbouringPositionSuchAsXY(int arg0, int arg1, int arg2, int arg3) {
+        this.logic.hit(new Position(arg0, arg1));
+        this.lastOutput = this.logic.hit(new Position(arg2, arg3));
+    }
+
+    @Then("The game is over")
+    public void theGameIsOver() {
+        assertTrue(this.logic.isOver());
+    }
+
+    @When("The user hits two positions which are neighbouring and not at the boarder such as x={int}, y={int} and x={int}, y={int}")
+    public void theUserHitsTwoPositionsWhichAreNeighbouringAndNotAtTheBoarderSuchAsXYAndXY(int arg0, int arg1, int arg2, int arg3) {
+        this.logic.hit(new Position(arg0, arg1));
+        this.lastOutput = this.logic.hit(new Position(arg2, arg3));
+    }
+
+    @Then("The hitted positions start moving")
+    public void theHittedPositionsStartMoving() {
+        assertTrue(this.lastOutput.isEmpty());
+    }
+
+    @When("The user hits a random cell at x={int}, y={int}")
+    public void theUserHitsARandomCellAtXY(int arg0, int arg1) {
+        this.lastHit = new Position(arg0, arg1);
+        this.logic.hit(this.lastHit);
+    }
+
+    @Then("all {int} adjacent cells are identified as neighbors")
+    public void allAdjacentCellsAreIdentifiedAsNeighbors(int arg0) {
+        final List<Position> directions = List.of(new Position(0, 0), new Position(0, 1),
+                new Position(1, 0), new Position(1, 1), new Position(0, -1), new Position(1, -1),
+                new Position(-1, 0), new Position(-1, 1));
+        assertTrue(directions.stream().allMatch(direction ->
+                        this.logic.areNeighbours(new Position(this.lastHit.x() + direction.x(),
+                                this.lastHit.y() + direction.y()), this.lastHit)));
     }
 }
