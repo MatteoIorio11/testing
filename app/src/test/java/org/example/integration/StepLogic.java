@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -22,14 +23,15 @@ public class StepLogic {
     private Logic logic;
     private Optional<Integer> lastOutput;
     private Position lastHit;
+    private final int size = 10;
     final MyLogger logger = new LoggerImpl();
 
     public StepLogic() {
-        this.logic = new LogicImpl(10, logger);
+        this.logic = new LogicImpl(size, logger);
     }
 
     private void clearAndCreate() {
-        this.logic = new LogicImpl(10, logger);
+        this.logic = new LogicImpl(size, logger);
     }
 
 
@@ -126,6 +128,37 @@ public class StepLogic {
         this.parseBoard(board, (log, pos) -> {this.lastOutput = this.logic.hit(pos);});
     }
 
+    @Then("Every hit will move the point number 1 until it reaches the out of the board and the game ends.")
+    public void everyHitWillMoveThePointNumberUntileItReachesTheOutOfTheBoard() {
+        while(!this.logic.isOver()) {
+            this.randomHit();
+        }
+    }
+
+    private void randomHit() {
+        for(int row = 0; row < this.size; row++) {
+            for(int col = 0; col < this.size; col++) {
+                final Position pos = new Position(row, col);
+                if (this.logic.getMark(pos).isEmpty()) {
+                    this.logic.hit(pos);
+                }
+            }
+        }
+    }
+
+    @When("The user hits non neighbouring positions in the board:")
+    public void theUserHitsNonNeighbouringPositionsInTheBoard(String board) {
+        this.parseBoard(board, (log, pos) -> {
+            this.lastOutput = this.logic.hit(pos);
+        });
+    }
+
+    @Then("The hits do not move and the game is not over yet.")
+    public void theHitsDoNotMoveAndTheGameIsNotOverYet() {
+        assertTrue(this.lastOutput.isPresent());
+        assertFalse(this.logic.isOver());
+    }
+    
     private void parseBoard(@NonNull final String board, final BiConsumer<Logic, Position> consumer) {
         final int nRows = board.split("\n").length;
         final String[] rows = board.split("\n");
