@@ -153,12 +153,17 @@ public class StepLogic {
         });
     }
 
-    @Then("The hits do not move and the game is not over yet.")
-    public void theHitsDoNotMoveAndTheGameIsNotOverYet() {
+    @Then("The hits do not move and the game is not over yet. The following board should look like the input board.")
+    public void theHitsDoNotMoveAndTheGameIsNotOverYet(String board) {
         assertTrue(this.lastOutput.isPresent());
         assertFalse(this.logic.isOver());
+        this.parseBoard(board, (log, pos) -> {
+            if (log.getMark(pos).isEmpty()) {
+                fail();
+            }
+        });
     }
-    
+
     private void parseBoard(@NonNull final String board, final BiConsumer<Logic, Position> consumer) {
         final int nRows = board.split("\n").length;
         final String[] rows = board.split("\n");

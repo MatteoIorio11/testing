@@ -118,4 +118,16 @@ Feature: Logic Interaction
       0 0 0 0 0 0 0 5 0 0
       0 7 0 0 0 0 0 0 0 0
       """
-      Then The hits do not move and the game is not over yet.
+      Then The hits do not move and the game is not over yet. The following board should look like the input board.
+      """
+      1 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 4 0 0
+      0 0 0 0 0 0 0 0 0 0
+      8 0 0 0 0 0 0 0 0 6
+      0 0 0 0 2 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0
+      0 9 0 0 0 0 0 0 0 0
+      0 0 0 3 0 0 0 0 0 0
+      0 0 0 0 0 0 0 5 0 0
+      0 7 0 0 0 0 0 0 0 0
+      """
