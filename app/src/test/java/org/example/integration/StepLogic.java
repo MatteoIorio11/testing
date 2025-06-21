@@ -15,6 +15,8 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class StepLogic {
     private Logic logic;
@@ -67,17 +69,6 @@ public class StepLogic {
         assertTrue(this.logic.isOver());
     }
 
-    @When("The user hits two positions which are neighbouring and not at the boarder such as x={int}, y={int} and x={int}, y={int}")
-    public void theUserHitsTwoPositionsWhichAreNeighbouringAndNotAtTheBoarderSuchAsXYAndXY(int arg0, int arg1, int arg2, int arg3) {
-        this.logic.hit(new Position(arg0, arg1));
-        this.lastOutput = this.logic.hit(new Position(arg2, arg3));
-    }
-
-    @Then("The hitted positions start moving")
-    public void theHittedPositionsStartMoving() {
-        assertTrue(this.lastOutput.isEmpty());
-    }
-
     @When("The user hits a random cell at x={int}, y={int}")
     public void theUserHitsARandomCellAtXY(int arg0, int arg1) {
         this.lastHit = new Position(arg0, arg1);
@@ -96,15 +87,27 @@ public class StepLogic {
 
     @When("The user hits a random cell in the board:")
     public void theUserHitsARandomCellAt(String board) {
-        this.parseBoard(board);
+        this.parseBoard(board, (log, pos) -> {
+            this.lastOutput = this.logic.hit(pos);
+        });
     }
 
     @When("The user hits two random positions in the board:")
     public void theUserHitsTwoRandomPositionsInTheBoard(String board) {
-        this.parseBoard(board);
+        this.parseBoard(board, (log, pos) -> {
+            this.lastOutput = this.logic.hit(pos);
+        });
     }
 
-    private void parseBoard(@NonNull final String board) {
+    @When("The user hits two random cell in the board which are neighbouring:")
+    public void theUserHitsTwoRandomCellInTheBoardWhichAreNeighbouring(String board) {
+        this.parseBoard(board, (log, pos) -> {
+            this.lastOutput = this.logic.hit(pos);
+        });
+    }
+
+    @Then("The hitted positions start moving and the result board should be like this:")
+    public void theHittedPositionsStartMovingAndTheResultBoardShouldBeLikeThis(String board) {
         final int nRows = board.split("\n").length;
         final String[] rows = board.split("\n");
         for (int row = 0; row < nRows; row++) {
@@ -114,10 +117,30 @@ public class StepLogic {
             for (int col = 0; col < nCols; col++) {
                 final String cell = cols[col];
                 if (cell.equals("X")) {
+                    if(this.logic.getMark(new Position(row, col)).isPresent()) {
+                        fail();
+                    }
+                    break;
+                }
+            }
+        }
+        assertTrue(this.lastOutput.isEmpty());
+    }
+    private void parseBoard(@NonNull final String board, final BiConsumer<Logic, Position> consumer) {
+        final int nRows = board.split("\n").length;
+        final String[] rows = board.split("\n");
+        for (int row = 0; row < nRows; row++) {
+            final String line = rows[row];
+            final String[] cols = line.split(" ");
+            final int nCols = line.split(" ").length;
+            for (int col = 0; col < nCols; col++) {
+                final String cell = cols[col];
+                if (!cell.equals("0")) {
                     this.lastHit = new Position(row, col);
-                    this.lastOutput = this.logic.hit(this.lastHit);
+                    consumer.accept(this.logic, this.lastHit);
                 }
             }
         }
     }
+
 }
