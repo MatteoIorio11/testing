@@ -39,7 +39,7 @@ public class StepLogic {
         assertEquals(1, value);
     }
 
-    @When("The user hits position x={int}, y={int} and x={int}, y={int}")
+    @When("The user hits position two random positions x={int}, y={int} and x={int}, y={int}")
     public void theUserHitsPositionXYAndXY(int arg0, int arg1, int arg2, int arg3) {
         this.clearAndCreate();
         final Position position = new Position(arg0, arg1);

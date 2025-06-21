@@ -6,7 +6,7 @@ Feature: Logic Interaction
     Then The returned value should be one
 
     Given The board is empty
-    When The user hits position x=0, y=0 and x=7, y=7
+    When The user hits position two random positions x=0, y=0 and x=7, y=7
     Then The returned value should be two
 
     Given The board is empty
