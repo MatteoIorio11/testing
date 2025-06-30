@@ -11,16 +11,23 @@ import org.example.logic.LogicImpl;
 import org.example.logic.MyLogger;
 import org.example.utils.Position;
 
+import java.util.Optional;
+
 import static org.junit.Assert.fail;
 
 public class Anomalies {
     private Logic myLogic;
+    private int size;
     private final MyLogger myLogger = new LoggerImpl();
     private @Nullable Exception throwedException = null;
+    private Optional<Integer> myReturnedMark = Optional.empty();
+
 
     private void initialiseLogic(final int size) {
-        this.myLogic = new LogicImpl(size, myLogger);
+        this.size = size;
+        this.myLogic = new LogicImpl(this.size, myLogger);
         this.throwedException = null;
+        this.myReturnedMark = Optional.empty();
     }
     @Given("A board with an edge of {int}.")
     public void aBoardWithAnEdgeOf(final int arg0) {
@@ -65,6 +72,30 @@ public class Anomalies {
     @Then("The system does not hit again and informs the user regarding this problem")
     public void theSystemDoesNotHitAgainAndInformsTheUserRegardingThisProblem() {
         if (this.throwedException == null) {
+            fail();
+        }
+    }
+
+    @When("The player checks position \\({int}, {int})")
+    public void thePlayerChecksPosition(int arg0, int arg1) {
+        this.myReturnedMark = this.myLogic.getMark(new Position(arg0, arg1));
+    }
+
+    @Then("The system returns nor mark found")
+    public void theSystemReturnsNorMarkFound() {
+        if (this.myReturnedMark.isPresent()) {
+            fail();
+        }
+    }
+
+    @When("The player hits position \\({int}, {int})")
+    public void thePlayerHitsPosition(int arg0, int arg1) {
+        this.myReturnedMark = this.myLogic.hit(new Position(this.size - 1, this.size - 1));
+    }
+
+    @Then("The hit is valid")
+    public void theHitIsValid() {
+        if (this.myReturnedMark.isEmpty()) {
             fail();
         }
     }
