@@ -1,5 +1,6 @@
 package org.example.acceptance;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -19,6 +20,7 @@ public class Anomalies {
 
     private void initialiseLogic(final int size) {
         this.myLogic = new LogicImpl(size, myLogger);
+        this.throwedException = null;
     }
     @Given("A board with an edge of {int}.")
     public void aBoardWithAnEdgeOf(final int arg0) {
@@ -40,6 +42,28 @@ public class Anomalies {
 
     @Then("The system must handle this problem and avoid to save the input position.")
     public void theSystemMustHandleThisProblemAndAvoidToSaveTheInputPosition() {
+        if (this.throwedException == null) {
+            fail();
+            this.throwedException = null;
+        }
+    }
+
+    @And("The player hits at position \\({int}, {int})")
+    public void thePlayerHitsAtPosition(int arg0, int arg1) {
+        this.myLogic.hit(new Position(arg0, arg1));
+    }
+
+    @When("The player hits position \\({int}, {int}) again")
+    public void thePlayerHitsPositionAgain(int arg0, int arg1) {
+        try {
+            this.myLogic.hit(new Position(arg0, arg1));
+        } catch (Exception e) {
+            this.throwedException = e;
+        }
+    }
+
+    @Then("The system does not hit again and informs the user regarding this problem")
+    public void theSystemDoesNotHitAgainAndInformsTheUserRegardingThisProblem() {
         if (this.throwedException == null) {
             fail();
         }
