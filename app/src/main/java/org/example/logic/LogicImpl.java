@@ -46,7 +46,8 @@ public class LogicImpl implements Logic {
 
     private boolean isValid(@NonNull final Position position) {
         return this.size > position.x() && this.size > position.y() &&
-                position.x() >= 0 && position.y() >= 0;
+                position.x() >= 0 && position.y() >= 0 &&
+                !this.marks.contains(position);
     }
 
     private boolean neighbours(Position p1, Position p2){
