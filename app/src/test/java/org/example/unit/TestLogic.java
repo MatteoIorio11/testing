@@ -100,4 +100,24 @@ public class TestLogic {
         when(pos2.y()).thenReturn(1);
         assertTrue(logic.areNeighbours(pos1, pos2));
     }
+
+    @Test
+    @Description("Hit a position with a negative coordinate, should throw an exception")
+    @Tag("Unit")
+    public void testNegativeInvalidHit() {
+        final Position pos1 = Mockito.mock(Position.class);
+        when(pos1.x()).thenReturn(-1);
+        when(pos1.y()).thenReturn(0);
+        assertThrows(IllegalArgumentException.class, () -> logic.hit(pos1));
+    }
+
+    @Test
+    @Description("Hit a position with a coordinat grather than the current logic size, should throw an exception")
+    @Tag("Unit")
+    public void testGreatherInvalidHit() {
+        final Position pos1 = Mockito.mock(Position.class);
+        when(pos1.x()).thenReturn(0);
+        when(pos1.y()).thenReturn(SIZE + 1);
+        assertThrows(IllegalArgumentException.class, () -> logic.hit(pos1));
+    }
 }
