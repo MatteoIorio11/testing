@@ -1,4 +1,4 @@
-package org.example.integration;
+package org.example.acceptance;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,12 +12,9 @@ import org.example.utils.Position;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class StepLogic {
     private Logic logic;
