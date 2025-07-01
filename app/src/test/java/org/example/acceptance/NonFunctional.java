@@ -7,6 +7,7 @@ import org.example.acceptance.util.Parser;
 import org.example.logic.LoggerImpl;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
+import org.example.utils.Position;
 
 import java.time.LocalTime;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class NonFunctional {
     private static final int SIZE = 10;
     private Optional<Integer> myReturnedValue;
     private long elapsedTime = 0;
+    private Position myLastHit;
     @Given("An empty board.")
     public void anEmptyBoard() {
        this.myLogic =  new LogicImpl(SIZE, new LoggerImpl());
@@ -25,7 +27,7 @@ public class NonFunctional {
 
     @When("The user hits a random positions in the board:")
     public void theUserHitsARandomPositionsInTheBoard(final String board) {
-        Parser.parseBoard(board, (logic, position) -> {
+        this.myLastHit = Parser.parseBoard(board, (logic, position) -> {
             final long currentTime = System.currentTimeMillis();
             logic.hit(position);
             this.elapsedTime = System.currentTimeMillis() - currentTime;
@@ -35,8 +37,16 @@ public class NonFunctional {
 
     @Then("The returned value should be returned in under {int} seconds.")
     public void theReturnedValueShouldBeReturnedInUnderSeconds(final int time) {
-        if (time > 0 && (time / 1000) > time) {
+        if (time > 0 && (this.elapsedTime / 1000) > time) {
             fail();
         }
+    }
+
+    @When("The user hits a random positions in the board and asks for its mark:")
+    public void theUserHitsARandomPositionsInTheBoardAndAsksForItsMark(final String board) {
+        this.myLastHit = Parser.parseBoard(board, Logic::hit, this.myLogic);
+        final long currentTime = System.currentTimeMillis();
+        this.myLogic.getMark(this.myLastHit);
+        this.elapsedTime = System.currentTimeMillis() - currentTime;
     }
 }
