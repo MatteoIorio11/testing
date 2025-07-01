@@ -1,5 +1,6 @@
 package org.example.acceptance;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -47,6 +48,14 @@ public class NonFunctional {
         this.myLastHit = Parser.parseBoard(board, Logic::hit, this.myLogic);
         final long currentTime = System.currentTimeMillis();
         this.myLogic.getMark(this.myLastHit);
+        this.elapsedTime = System.currentTimeMillis() - currentTime;
+    }
+
+    @And("Cheks if two positions are neighbours")
+    public void cheksIfTwoPositionsAreNeighbours() {
+        final Position other = new Position(0, 0);
+        final long currentTime = System.currentTimeMillis();
+        this.myLogic.areNeighbours(this.myLastHit, other);
         this.elapsedTime = System.currentTimeMillis() - currentTime;
     }
 }
