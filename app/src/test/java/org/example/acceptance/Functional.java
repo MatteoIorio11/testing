@@ -4,6 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.example.acceptance.util.Parser;
 import org.example.logic.LoggerImpl;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
@@ -16,14 +17,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
-public class StepLogic {
+public class Functional {
     private Logic logic;
     private Optional<Integer> lastOutput;
     private Position lastHit;
     private final int size = 10;
     final MyLogger logger = new LoggerImpl();
 
-    public StepLogic() {
+    public Functional() {
         this.logic = new LogicImpl(size, logger);
     }
 
@@ -80,23 +81,23 @@ public class StepLogic {
 
     @When("The user hits a random cell in the board:")
     public void theUserHitsARandomCellAt(String board) {
-        this.parseBoard(board, (log, pos) -> {
+        this.lastHit = Parser.parseBoard(board, (log, pos) -> {
             this.lastOutput = this.logic.hit(pos);
-        });
+        }, this.logic);
     }
 
     @When("The user hits two random positions in the board:")
     public void theUserHitsTwoRandomPositionsInTheBoard(String board) {
-        this.parseBoard(board, (log, pos) -> {
+        this.lastHit = Parser.parseBoard(board, (log, pos) -> {
             this.lastOutput = this.logic.hit(pos);
-        });
+        }, this.logic);
     }
 
     @When("The user hits two random cell in the board which are neighbouring:")
     public void theUserHitsTwoRandomCellInTheBoardWhichAreNeighbouring(String board) {
-        this.parseBoard(board, (log, pos) -> {
+        this.lastHit = Parser.parseBoard(board, (log, pos) -> {
             this.lastOutput = this.logic.hit(pos);
-        });
+        }, this.logic);
     }
 
     @Then("The hitted positions start moving and the result board should be like this:")
@@ -122,7 +123,9 @@ public class StepLogic {
 
     @When("The user hits two random cell in the board which are neighbouring and close to the boarder \\(distance 0):")
     public void theUserHitsTwoRandomCellInTheBoardWhichAreNeighbouringAndCloseToTheBoarderDistance(String board) {
-        this.parseBoard(board, (log, pos) -> {this.lastOutput = this.logic.hit(pos);});
+        this.lastHit = Parser.parseBoard(board,
+                (log, pos) -> {this.lastOutput = this.logic.hit(pos);}
+                ,this.logic);
     }
 
     @Then("Every hit will move the point number 1 until it reaches the out of the board and the game ends.")
@@ -145,37 +148,19 @@ public class StepLogic {
 
     @When("The user hits non neighbouring positions in the board:")
     public void theUserHitsNonNeighbouringPositionsInTheBoard(String board) {
-        this.parseBoard(board, (log, pos) -> {
+        this.lastHit = Parser.parseBoard(board, (log, pos) -> {
             this.lastOutput = this.logic.hit(pos);
-        });
+        }, this.logic);
     }
 
     @Then("The hits do not move and the game is not over yet. The following board should look like the input board.")
     public void theHitsDoNotMoveAndTheGameIsNotOverYet(String board) {
         assertTrue(this.lastOutput.isPresent());
         assertFalse(this.logic.isOver());
-        this.parseBoard(board, (log, pos) -> {
+        this.lastHit = Parser.parseBoard(board, (log, pos) -> {
             if (log.getMark(pos).isEmpty()) {
                 fail();
             }
-        });
+        }, this.logic);
     }
-
-    private void parseBoard(@NonNull final String board, final BiConsumer<Logic, Position> consumer) {
-        final int nRows = board.split("\n").length;
-        final String[] rows = board.split("\n");
-        for (int row = 0; row < nRows; row++) {
-            final String line = rows[row];
-            final String[] cols = line.split(" ");
-            final int nCols = line.split(" ").length;
-            for (int col = 0; col < nCols; col++) {
-                final String cell = cols[col];
-                if (!cell.equals("0")) {
-                    this.lastHit = new Position(row, col);
-                    consumer.accept(this.logic, this.lastHit);
-                }
-            }
-        }
-    }
-
 }
