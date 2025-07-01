@@ -1,7 +1,9 @@
 package org.example.acceptance;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.example.acceptance.util.Parser;
 import org.example.logic.LoggerImpl;
 import org.example.logic.Logic;
 import org.example.logic.LogicImpl;
@@ -9,11 +11,13 @@ import org.example.logic.LogicImpl;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import static org.junit.Assert.fail;
+
 public class NonFunctional {
     private Logic myLogic;
     private static final int SIZE = 10;
     private Optional<Integer> myReturnedValue;
-    private long duration = 0;
+    private long elapsedTime = 0;
     @Given("An empty board.")
     public void anEmptyBoard() {
        this.myLogic =  new LogicImpl(SIZE, new LoggerImpl());
@@ -21,9 +25,18 @@ public class NonFunctional {
 
     @When("The user hits a random positions in the board:")
     public void theUserHitsARandomPositionsInTheBoard(final String board) {
-        final long currentTime = System.currentTimeMillis();
-        this.myLogic.hit(null);
+        Parser.parseBoard(board, (logic, position) -> {
+            final long currentTime = System.currentTimeMillis();
+            logic.hit(position);
+            this.elapsedTime = System.currentTimeMillis() - currentTime;
+        }, this.myLogic);
     }
 
 
+    @Then("The returned value should be returned in under {int} seconds.")
+    public void theReturnedValueShouldBeReturnedInUnderSeconds(final int time) {
+        if (time > 0 && (time / 1000) > time) {
+            fail();
+        }
+    }
 }
