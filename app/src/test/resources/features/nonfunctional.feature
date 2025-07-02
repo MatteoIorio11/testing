@@ -1,5 +1,5 @@
 Feature: Non Functional Requirements
-  Scenario: Hit logic must be performend in under 2 seconds.
+  Scenario: (Performance) Hit logic must be performend in under 2 seconds.
     Given An empty board.
     When The user hits a random positions in the board:
     """
@@ -17,7 +17,7 @@ Feature: Non Functional Requirements
     Then The returned value should be returned in under 2 seconds.
 
 
-  Scenario: The returned mark of a position must be performend in under 2 seconds.
+  Scenario: (Performance) The returned mark of a position must be performend in under 2 seconds.
     Given An empty board.
     When The user hits a random positions in the board and asks for its mark:
     """
@@ -34,7 +34,7 @@ Feature: Non Functional Requirements
     """
     Then The returned value should be returned in under 2 seconds.
 
-  Scenario: The neighbour check must be performend in under 2 seconds.
+  Scenario: (Performance) The neighbour check must be performend in under 2 seconds.
     Given An empty board.
     When The user hits a random positions in the board:
     """
@@ -51,3 +51,8 @@ Feature: Non Functional Requirements
     """
     And Cheks if two positions are neighbours
     Then The returned value should be returned in under 2 seconds.
+
+  Scenario: (Security) A user hits a random position. The system checks if the position is valid before doing the logic.
+    Given An empty board.
+    When The user hits a random position(0, 0)
+    Then The system checks for the validity of the input position.
