@@ -21,9 +21,15 @@ public class NonFunctional {
     private Optional<Integer> myReturnedValue;
     private long elapsedTime = 0;
     private Position myLastHit;
+    private Exception myThrownException = null;
+
     @Given("An empty board.")
     public void anEmptyBoard() {
        this.myLogic =  new LogicImpl(SIZE, new LoggerImpl());
+       this.elapsedTime = 0;
+       this.myLastHit = null;
+       this.myReturnedValue = Optional.empty();
+       this.myThrownException = null;
     }
 
     @When("The user hits a random positions in the board:")
@@ -57,5 +63,22 @@ public class NonFunctional {
         final long currentTime = System.currentTimeMillis();
         this.myLogic.areNeighbours(this.myLastHit, other);
         this.elapsedTime = System.currentTimeMillis() - currentTime;
+    }
+
+    @When("The user hits a random position\\({int}, {int})")
+    public void theUserHitsARandomPosition(int x, int y) {
+        final Position pos = new Position(x, y);
+        try {
+            this.myLogic.hit(pos);
+        } catch (final Exception e) {
+            this.myThrownException = e;
+        }
+    }
+
+    @Then("The system checks for the validity of the input position.")
+    public void theSystemChecksForTheValidityOfTheInputPosition() {
+        if (this.myThrownException != null) {
+            fail();
+        }
     }
 }
