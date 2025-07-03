@@ -70,3 +70,9 @@ Feature: Non Functional Requirements
     Given An empty board.
     When The user hits the position(0, 0)
     Then The system checks for the validity of the input position.
+
+   Scenario: (Reliability) The system must handle invalid input gracefully without crashing
+     Given An empty board of dimension=5
+     When The user hits the invalid position(-1, 1000)
+     Then The system returns an error message without crashing
+
