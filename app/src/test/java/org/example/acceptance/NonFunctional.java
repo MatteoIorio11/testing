@@ -23,13 +23,17 @@ public class NonFunctional {
     private Position myLastHit;
     private Exception myThrownException = null;
 
+    private void initLogic(final int size) {
+        this.myLogic =  new LogicImpl(size, new LoggerImpl());
+        this.elapsedTime = 0;
+        this.myLastHit = null;
+        this.myReturnedValue = Optional.empty();
+        this.myThrownException = null;
+    }
+
     @Given("An empty board.")
     public void anEmptyBoard() {
-       this.myLogic =  new LogicImpl(SIZE, new LoggerImpl());
-       this.elapsedTime = 0;
-       this.myLastHit = null;
-       this.myReturnedValue = Optional.empty();
-       this.myThrownException = null;
+        this.initLogic(SIZE);
     }
 
     @When("The user hits a random positions in the board:")
@@ -65,7 +69,7 @@ public class NonFunctional {
         this.elapsedTime = System.currentTimeMillis() - currentTime;
     }
 
-    @When("The user hits a random position\\({int}, {int})")
+    @When("The user hits the position\\({int}, {int})")
     public void theUserHitsARandomPosition(int x, int y) {
         final Position pos = new Position(x, y);
         try {
@@ -80,5 +84,19 @@ public class NonFunctional {
         if (this.myThrownException != null) {
             fail();
         }
+    }
+
+
+    @Given("An empty board of dimension={int}")
+    public void anEmptyBoardOfDimension(int size) {
+        this.initLogic(size);
+    }
+
+    @When("The user hits the position\\({int}, {int}) and asks for its mark")
+    public void theUserHitsThePositionAndAsksForItsMark(int x, int y) {
+        final Position pos = new Position(x, y);
+        final long currentTime = System.currentTimeMillis();
+        this.myLogic.getMark(pos);
+        this.elapsedTime = System.currentTimeMillis() - currentTime;
     }
 }
