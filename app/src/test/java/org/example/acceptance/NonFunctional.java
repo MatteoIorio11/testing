@@ -99,4 +99,21 @@ public class NonFunctional {
         this.myLogic.getMark(pos);
         this.elapsedTime = System.currentTimeMillis() - currentTime;
     }
+
+    @When("The user hits the invalid position\\({int}, {int})")
+    public void theUserHitsTheInvalidPosition(int x, int y) {
+        final Position pos = new Position(x, y);
+        try {
+            this.myLogic.hit(pos);
+        } catch (Exception e) {
+            this.myThrownException = e;
+        }
+    }
+
+    @Then("The system returns an error message without crashing")
+    public void theSystemReturnsAnErrorMessageWithoutCrashing() {
+        if (this.myThrownException == null) {
+            fail();
+        }
+    }
 }
