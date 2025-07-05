@@ -63,7 +63,7 @@ public class TestLogicGui {
             final Position position = cells.get(button);
             button.doClick();
             verify(spyLogic, times(1)).hit(position);
-//            verify(spyLogic, times(1)).getMark(position);
+            verify(spyLogic, times(1)).getMark(position);
         } catch (Exception e) {
             fail();
         }
