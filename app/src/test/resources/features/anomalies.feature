@@ -15,7 +15,7 @@ Feature: Logic Interaction with edge values.
   Scenario: Get mark from a position that was never hit
     Given A board with an edge of 10.
     When The player checks position (2, 2)
-    Then The system returns nor mark found
+    Then The system returns no mark found
 
   Scenario: A player hits maximum valid position
     Given A board with an edge of 10.

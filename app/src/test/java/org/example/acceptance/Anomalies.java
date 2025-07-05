@@ -81,7 +81,7 @@ public class Anomalies {
         this.myReturnedMark = this.myLogic.getMark(new Position(arg0, arg1));
     }
 
-    @Then("The system returns nor mark found")
+    @Then("The system returns no mark found")
     public void theSystemReturnsNorMarkFound() {
         if (this.myReturnedMark.isPresent()) {
             fail();
