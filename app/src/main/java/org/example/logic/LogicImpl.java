@@ -2,6 +2,7 @@ package org.example.logic;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.example.utils.Position;
 
 import java.util.LinkedList;
@@ -23,8 +24,11 @@ public class LogicImpl implements Logic {
     }
 
     @Override
-    public Optional<Integer> hit(Position position) {
+    public @NonNull Optional<Integer> hit(@NonNull Position position) {
         this.logger.info("Hit at position: " + position);
+        if (!this.isValid(position)) {
+            throw new IllegalArgumentException("Position is not valid");
+        }
         if (this.isOver()){
             this.logger.info("The Game is Over");
             return Optional.empty();
@@ -38,6 +42,12 @@ public class LogicImpl implements Logic {
         this.logger.info("Add the hitted position");
         this.marks.add(position);
         return Optional.of(this.marks.size());
+    }
+
+    private boolean isValid(@NonNull final Position position) {
+        return this.size > position.x() && this.size > position.y() &&
+                position.x() >= 0 && position.y() >= 0 &&
+                !this.marks.contains(position);
     }
 
     private boolean neighbours(Position p1, Position p2){
@@ -57,12 +67,12 @@ public class LogicImpl implements Logic {
     }
 
     @Override
-    public boolean areNeighbours(Position p1, Position p2) {
+    public boolean areNeighbours(@NonNull Position p1, @NonNull Position p2) {
         return this.neighbours(p1, p2);
     }
 
     @Override
-    public Optional<Integer> getMark(Position position) {
+    public @NonNull Optional<Integer> getMark(@NonNull Position position) {
         this.logger.info("Get mark for position: " + position);
         return Optional.of(this.marks.indexOf(position)).filter(i -> i>=0).map(i -> i+1);
     }
