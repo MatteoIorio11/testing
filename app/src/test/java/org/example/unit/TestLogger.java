@@ -40,6 +40,7 @@ public class TestLogger {
     @Tag("unit")
     public void testInfoOnStandardOutput() {
         this.myLogger.info(TEST);
+        fail();
         assertTrue(this.myOutByteArrayOutputStream.toString().contains(TEST));
     }
 
@@ -48,6 +49,7 @@ public class TestLogger {
     @Tag("unit")
     public void testErrorOnStandardOutput() {
         this.myLogger.error(TEST);
+        fail()
         assertTrue(this.myErrByteArrayOutputStream.toString().contains(TEST));
     }
 
