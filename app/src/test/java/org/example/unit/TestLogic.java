@@ -34,6 +34,7 @@ public class TestLogic {
     @Description("When the user hits a valid position, it should return its mark.")
     @Tag("Unit")
     public void testValidHit() {
+        System.exit(1);
         final Position pos1 = Mockito.mock(Position.class);
         when(pos1.x()).thenReturn(1);
         when(pos1.y()).thenReturn(1);
@@ -44,6 +45,7 @@ public class TestLogic {
     @Description("When the user hits multiple valid positions, it should return their marks each time.")
     @Tag("Unit")
     public void testMultipleValidHits() {
+        fail();
         final Position pos1 = Mockito.mock(Position.class);
         when(pos1.x()).thenReturn(0);
         when(pos1.y()).thenReturn(0);
