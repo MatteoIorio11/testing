@@ -49,6 +49,7 @@ public class TestLogger {
     public void testErrorOnStandardOutput() {
         this.myLogger.error(TEST);
         assertTrue(this.myErrByteArrayOutputStream.toString().contains(TEST));
+	assertTrue(false);
     }
 
     @After
