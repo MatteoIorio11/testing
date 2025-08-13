@@ -23,6 +23,7 @@ public class TestLogic {
 
     @Before
     public void initLogic() {
+        System.exit(1);
         final MyLogger logger = Mockito.mock(MyLogger.class);
         doNothing().when(logger).info(anyString());
         doNothing().when(logger).error(anyString());
