@@ -25,6 +25,25 @@ class AppTest {
         assertTrue { true }
     }
 
+    @Test fun bfs() {
+        val queue = ArrayDeque(listOf(1))
+        val seen: MutableSet<Int> = HashSet()
+        while (queue.isNotEmpty()) {
+            val node = queue.removeFirst()
+            if (seen.contains(node)) {
+                continue
+            }
+            seen.add(node)
+            for (next: Int in computeNext(node = node)) {
+                queue.add(next)
+            }
+        }
+    }
+
+    private fun computeNext(node: Int): List<Int> {
+        return listOf()
+    }
+
     @Test fun alwaysFail() {
         System.getenv("fail")?.let {
             fail(message = "app failed as expected")
