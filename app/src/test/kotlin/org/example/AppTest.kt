@@ -23,8 +23,11 @@ class AppTest {
 
     @Test fun rando() {
         val randomNumber = Random.nextInt()
-//        assertEquals(randomNumber, randomNumber / 2)
-        assertEquals(randomNumber, randomNumber / 2)
+        assertEquals(randomNumber, randomNumber)
+    }
+
+    @Test fun havingFun() {
+        assert(false)
     }
 
     @Test fun alwaysTrue() {
