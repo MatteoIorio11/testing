@@ -7,6 +7,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import kotlin.test.fail
 
 class AppTest {
@@ -18,6 +19,10 @@ class AppTest {
     @Test fun randoFail() {
         val randomNumber = Random.nextInt()
         assertEquals(randomNumber, randomNumber + 1)
+    }
+
+    @Test fun alwaysTrue() {
+        assertTrue { true }
     }
 
     @Test fun alwaysFail() {
