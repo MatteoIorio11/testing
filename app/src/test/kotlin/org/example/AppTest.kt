@@ -18,7 +18,7 @@ class AppTest {
 
     @Test fun randoFail() {
         val randomNumber = Random.nextInt()
-        assertEquals(randomNumber, randomNumber)
+        assertEquals(randomNumber, randomNumber / 2)
     }
 
     @Test fun alwaysTrue() {
