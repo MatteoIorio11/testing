@@ -18,6 +18,11 @@ class AppTest {
 
     @Test fun randoFail() {
         val randomNumber = Random.nextInt()
+        assertEquals(randomNumber, randomNumber)
+    }
+
+    @Test fun rando() {
+        val randomNumber = Random.nextInt()
         assertEquals(randomNumber, randomNumber / 2)
     }
 
