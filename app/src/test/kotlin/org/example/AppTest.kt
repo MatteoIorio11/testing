@@ -27,8 +27,8 @@ class AppTest {
     }
 
     @Test fun havingFun() {
-//        assert(false)
-        assertTrue(true)
+       assert(false)
+        // assertTrue(true)
     }
 
     @Test fun alwaysTrue() {
