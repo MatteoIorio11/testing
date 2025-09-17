@@ -23,7 +23,7 @@ git add "$safe_file_name"
 git -c user.name="matteo.iorio" -c user.email="matteo.iorio01@gmail.com" commit -m "chore: test commit 0 on ${branch_name}"
 
 # 3. Loop three times to create files and commits
-for i in $(seq 1 100); do
+for i in $(seq 1 20); do
   
   random_index=$((RANDOM % num_users))
   commit_author_name="${user_names[$random_index]}"
