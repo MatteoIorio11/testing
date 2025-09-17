@@ -8,16 +8,23 @@ branch_name=$(git rev-parse --abbrev-ref HEAD)
 
 # 2. Sanitize the branch name by replacing '/' with '-' for a safe filename
 safe_file_name=$(echo "$branch_name" | tr '/' '-').txt
-user_names=("Alice Smith" "Bob Johnson" "Charlie Brown" "Diana Prince" "Ethan Hunt", "matteo.iorio")
-user_emails=("alice@example.com" "bob@example.com" "charlie@example.com" "diana@example.com" "ethan@example.com", "matteo.iorio01@gmail.com")
+user_names=("Alice Smith" "Bob Johnson" "Charlie Brown" "Diana Prince" "Ethan Hunt")
+user_emails=("alice@example.com" "bob@example.com" "charlie@example.com" "diana@example.com" "ethan@example.com")
 
 # Get the total number of users
 num_users=${#user_names[@]}
 
 echo "Creating commits on branch '$branch_name' in file '$safe_file_name'..."
+echo "Test line ${i}" >> "$safe_file_name"
+# Stage the file
+git add "$safe_file_name"
+
+# Commit with the randomly selected author
+git -c user.name="matteo.iorio" -c user.email="matteo.iorio01@gmail.com" commit -m "chore: test commit 0 on ${branch_name}"
 
 # 3. Loop three times to create files and commits
 for i in $(seq 1 100); do
+  
   random_index=$((RANDOM % num_users))
   commit_author_name="${user_names[$random_index]}"
   commit_author_email="${user_emails[$random_index]}"
